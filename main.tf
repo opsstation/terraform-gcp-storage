@@ -1,15 +1,18 @@
 module "labels" {
-  source      = "git::git@github.com:opsstation/terraform-gcp-labels.git?ref=master"
+  source      = "git::git@github.com:opsstation/terraform-gcp-labels.git?ref=v1.0.0"
   name        = var.name
   environment = var.environment
   label_order = var.label_order
+  managedby   = var.managedby
+  repository  = var.repository
 }
 
 ###################(Creates a new bucket in Google cloud storage service (GCS).)#############################
+#tfsec:ignore:google-storage-bucket-encryption-customer-key
+#tfsec:ignore:google-storage-enable-ubla
 resource "google_storage_bucket" "bucket" {
   count                       = var.enabled ? 1 : 0
   name                        = var.name
-  project                     = var.project_id
   labels                      = var.labels
   location                    = var.location
   force_destroy               = var.force_destroy

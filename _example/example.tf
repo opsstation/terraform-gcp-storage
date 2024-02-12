@@ -1,46 +1,44 @@
 provider "google" {
-  project = "xxxxxxxxxxxxxxx"
+  project = "local-concord-408802"
   region  = "asia-northeast1"
   zone    = "asia-northeast1-a"
 }
 
-########################################(bucket_logs module)###################################################
+#####==============================================================================
+##### bucket_logs module call .
+#####==============================================================================
 module "bucket_logs" {
   source      = "./../"
-  name        = "bukcet_logs"
-  environment = "test-bukcet"
-  label_order = ["name", "environment"]
-  project_id  = "xxxxxxxxxxxxx"
+  name        = "dev-logs-0909"
+  environment = "test"
   location    = "asia"
 }
 
-##############################################(bucket module)#################################################
+#####==============================================================================
+##### bucket module call .
+#####==============================================================================
 module "bucket" {
-  source                                   = "./../"
-  name                                     = "app-bucket09897"
-  environment                              = "test"
-  label_order                              = ["name", "environment"]
-  project_id                               = "xxxxxxxxxxxxx"
-  google_storage_bucket_iam_member_enabled = true
-  location                                 = "asia"
-  bucket_id                                = module.bucket.id
+  source      = "./../"
+  name        = "dev0989089"
+  environment = "test"
+  location    = "asia"
 
-  website = {
-    main_page_suffix = "index.html"
-    not_found_page   = "404.html"
-  }
+  #logging
   logging = {
-    log_bucket        = module.bucket_logs.id
+    log_bucket        = module.bucket_logs.bucket_id
     log_object_prefix = "gcs-log"
   }
+  #cors
   cors = [{
     origin          = ["http://image-store.com"]
     method          = ["GET", "HEAD", "PUT", "POST", "DELETE"]
     response_header = ["*"]
     max_age_seconds = 3600
   }]
+  # versioning
   versioning = true
 
+  #lifecycle_rules
   lifecycle_rules = [{
     action = {
       type          = "SetStorageClass"
@@ -56,8 +54,6 @@ module "bucket" {
       days_since_custom_time     = 1
       days_since_noncurrent_time = 1
       noncurrent_time_before     = "1970-01-01"
-
     }
   }]
-
 }
