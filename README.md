@@ -2,8 +2,9 @@
 
 [![OpsStation](https://img.shields.io/badge/Made%20by-OpsStation-blue?style=flat-square&logo=terraform)](https://www.opsstation.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Terraform](https://img.shields.io/badge/Terraform-1.6%2B-purple.svg?logo=terraform)](#)
+[![Terraform](https://img.shields.io/badge/Terraform-1.13%2B-purple.svg?logo=terraform)](#)
 [![CI](https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml/badge.svg)](https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml)
+[![Latest Release](https://img.shields.io/github/release/opsstation/terraform-gcp-storage.svg)](https://github.com/opsstation/terraform-gcp-storage/releases/latest)
 
 > 🌩️ **A production-grade, reusable GCP Storage module by [OpsStation](https://www.opsstation.com)**  
 > Designed for **reliability**, **security**, and **performance** — following Google Cloud best practices.
@@ -44,7 +45,7 @@
 ```hcl
 module "bucket" {
   source      = "opsstation/storage/gcp"
-  version     = "1.0.0"
+  version     = "1.0.1"
   name        = "bucket"
   environment = "test"
   location    = "us"
@@ -79,7 +80,7 @@ module "bucket" {
 ```hcl
 module "bucket" {
   source      = "opsstation/storage/gcp"
-  version     = "1.0.0"
+  version     = "1.0.1"
   name        = "bucket-encryption"
   environment = "test"
   location    = "US"
