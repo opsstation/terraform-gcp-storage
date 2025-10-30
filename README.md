@@ -44,7 +44,7 @@
 ```hcl
 module "bucket" {
   source      = "opsstation/storage/gcp"
-  version     = "v1.0.2"
+  version     = "1.0.0"
   name        = "bucket"
   environment = "test"
   location    = "us"
@@ -79,7 +79,7 @@ module "bucket" {
 ```hcl
 module "bucket" {
   source      = "opsstation/storage/gcp"
-  version     = "v1.0.2"
+  version     = "1.0.0"
   name        = "bucket-encryption"
   environment = "test"
   location    = "US"
