@@ -6,7 +6,7 @@
 [![CI](https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml/badge.svg)](https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml)
 [![Latest Release](https://img.shields.io/github/release/opsstation/terraform-gcp-storage.svg)](https://github.com/opsstation/terraform-gcp-storage/releases/latest)
 
-> 🌩️ **A production-grade, reusable GCP Storage module by [OpsStation](https://www.opsstation.com)**  
+> 🌩️ **A production-grade, reusable GCP Storage module by [OpsStation](https://www.opsstation.com)**
 > Designed for **reliability**, **security**, and **performance** — following Google Cloud best practices.
 
 ---
