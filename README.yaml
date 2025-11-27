@@ -1,0 +1,163 @@
+# Canonical configuration for `README.md`
+# Run `make readme` to rebuild the `README.md`
+
+# Project Name
+name: Terraform-Google-Storage
+
+# License
+license: "MIT"
+
+# Canonical GitHub repo
+github_repo: opsstation/terraform-gcp-storage
+
+# Badges
+badges:
+  - name: "Made by OpsStation"
+    image: "https://img.shields.io/badge/Made%20by-OpsStation-blue?style=flat-square&logo=terraform"
+    url: "https://www.opsstation.com"
+  - name: "License: MIT"
+    image: "https://img.shields.io/badge/License-MIT-blue.svg"
+    url: "LICENSE"
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-1.13%2B-purple.svg?logo=terraform"
+    url: "#"
+  - name: "CI"
+    image: "https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml/badge.svg"
+    url: "https://github.com/OpsStation/terraform-multicloud-labels/actions/workflows/ci.yml"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/opsstation/terraform-gcp-storage.svg"
+    url: "https://github.com/opsstation/terraform-gcp-storage/releases/latest"
+
+# Short Description
+description: >
+  🌩️ A production-grade, reusable GCP Storage module by [OpsStation](https://www.opsstation.com),
+  designed for **reliability**, **security**, and **performance** — following Google Cloud best practices.
+
+# About OpsStation
+about:
+  title: "🏢 About OpsStation"
+  points:
+    - "🚀 Infrastructure Automation with Terraform, Ansible & Kubernetes"
+    - "💰 Cost Optimization via scaling & right-sizing"
+    - "🛡️ Security & Compliance baked into CI/CD pipelines"
+    - "⚙️ Fully Managed Operations across GCP, Azure, and AWS"
+  contact:
+    website: "https://www.opsstation.com"
+    email: "hello@opsstation.com"
+
+# Features
+features:
+  - "Creates Google Cloud Storage (GCS) Buckets with full configuration options (versioning, encryption, logging, lifecycle rules)"
+  - "Supports Uniform Bucket-Level Access (UBLA) and Public Access Prevention"
+  - "Integrated with Google IAM for role-based access control"
+  - "Automatically creates folders inside buckets"
+  - "Supports Custom Placement Configs for multi-region redundancy"
+  - "Optional HMAC key generation for programmatic access"
+  - "Enables CORS, website hosting, and retention policies"
+  - "Integrated with OpsStation Multicloud Labels module"
+  - "Reusable for multiple environments (dev, stage, prod)"
+
+# Modules
+modules:
+  - name: "labels"
+    source: "git::git@github.com:opsstation/terraform-gcp-labels.git?ref=v1.0.0"
+    description: "Applies consistent tagging and naming conventions across GCP resources."
+  - name: "kms"
+    source: "git::git@github.com:opsstation/terraform-gcp-kms.git?ref=v1.0.0"
+    description: "Manages KMS keys for encryption of Google Cloud Storage buckets."
+  - name: "bucket"
+    source: "git::git@github.com:opsstation/terraform-gcp-storage.git?ref=v1.0.1"
+    description: "Creates and manages Google Cloud Storage buckets with advanced configuration."
+
+# Resources Created
+resources:
+  - name: "google_storage_bucket"
+    description: "Creates a new Google Cloud Storage bucket with the given configuration."
+  - name: "google_storage_bucket_object"
+    description: "Creates folder placeholders inside the bucket."
+  - name: "google_storage_bucket_iam_member"
+    description: "Assigns IAM roles to users/service accounts."
+  - name: "google_storage_hmac_key"
+    description: "Generates HMAC keys for service accounts (if enabled)."
+  - name: "random_id.bucket_suffix"
+    description: "Appends a random suffix to bucket names for uniqueness."
+  - name: "data.google_client_config.current"
+    description: "Retrieves the current GCP project configuration."
+
+# Outputs
+outputs:
+  - name: "hmac_keys"
+    description: "List of HMAC keys generated for accessing the Google Cloud Storage buckets. *(Sensitive output)*"
+  - name: "bucket_id"
+    description: "The ID of the created Google Cloud Storage bucket."
+  - name: "bucket_name"
+    description: "The name(s) of the created Google Cloud Storage bucket(s)."
+  - name: "bucket_url"
+    description: "The full URL(s) for accessing the GCS buckets. Example: https://storage.googleapis.com/<bucket-name>"
+  - name: "bucket_encryption_keys"
+    description: "The encryption keys (self-links) used to encrypt data in the GCS bucket(s)."
+  - name: "bucket_self_links"
+    description: "The self-link URI(s) of the created GCS buckets."
+
+# Inputs (Highlights)
+inputs:
+  - name: location
+    type: string
+    required: true
+    description: "The location/region of the GCS bucket."
+  - name: storage_class
+    type: string
+    default: "STANDARD"
+    description: "The storage class for the bucket (STANDARD, NEARLINE, COLDLINE)."
+  - name: versioning
+    type: bool
+    default: false
+    description: "Enables versioning for bucket objects."
+  - name: autoclass
+    type: bool
+    default: false
+    description: "Enables automatic object storage class management."
+  - name: force_destroy
+    type: bool
+    default: false
+    description: "Force bucket deletion even if not empty."
+  - name: bucket_policy_only
+    type: bool
+    default: true
+    description: "Enables Uniform Bucket-Level Access (UBLA)."
+  - name: encryption
+    type: object
+    default: "{ kms_key = null }"
+    description: "Configures default KMS encryption for the bucket."
+  - name: iam_members
+    type: list(object)
+    default: []
+    description: "Assigns IAM roles to users or service accounts."
+  - name: lifecycle_rules
+    type: list(object)
+    default: []
+    description: "Defines lifecycle policies for bucket objects."
+  - name: folders
+    type: map(list(string))
+    default: "{}"
+    description: "Creates initial folder structure in the bucket."
+  - name: set_hmac_access
+    type: bool
+    default: false
+    description: "Enables creation of HMAC keys for service accounts."
+  - name: hmac_service_accounts
+    type: map(string)
+    default: "{}"
+    description: "Defines service accounts and their HMAC key states."
+
+# Security Notes
+security_notes:
+  - "UBLA (Uniform Bucket-Level Access) is recommended for production."
+  - "Avoid assigning public roles such as allUsers or allAuthenticatedUsers."
+  - "Treat HMAC keys as secrets — avoid printing them in pipelines or logs."
+  - "Use KMS encryption for additional data protection."
+
+# Maintainers
+maintainers:
+  - name: "OpsStation"
+    url: "https://www.opsstation.com"
